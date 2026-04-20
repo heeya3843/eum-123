@@ -325,8 +325,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);}
   </div></div>
   <div class="container">
     <div class="tabs-secondary" id="auth-tabs">
-      <button class="active" onclick="switchAuthTab('login')">🔑 로그인</button>
-      <button onclick="switchAuthTab('register')">📝 회원가입</button>
+      <button id="login-tab-btn" class="active" onclick="switchAuthTab('login')">🔑 로그인</button>
+      <button id="register-tab-btn" onclick="switchAuthTab('register')">📝 회원가입</button>
       <button id="mypage-tab-btn" onclick="switchAuthTab('mypage')" style="display:none;">🏠 마이페이지</button>
     </div>
     <div id="auth-login" class="auth-pane">
@@ -953,6 +953,9 @@ async function doLogin(){
     isLoggedIn=true;loggedUser=name;isAdminUser=(user.type==='admin');
     const isAdmin=isAdminUser;
     document.getElementById('mp-username').textContent=name;
+    // 로그인/회원가입 탭 숨기고 마이페이지 탭만 표시
+    document.getElementById('login-tab-btn').style.display='none';
+    document.getElementById('register-tab-btn').style.display='none';
     document.getElementById('mypage-tab-btn').style.display='';
     document.getElementById('top-login-label').textContent=name+' 님';
     document.getElementById('nav-auth-btn').textContent='👤 '+name;
@@ -983,7 +986,11 @@ async function doLogin(){
 }
 function doLogout(){
   isLoggedIn=false;loggedUser=null;isAdminUser=false;
+  // 로그인/회원가입 탭 다시 보이기, 마이페이지 숨기기
+  document.getElementById('login-tab-btn').style.display='';
+  document.getElementById('register-tab-btn').style.display='';
   document.getElementById('mypage-tab-btn').style.display='none';
+  switchAuthTab('login');
   document.getElementById('top-login-label').textContent='로그인 / 가입';
   document.getElementById('nav-auth-btn').textContent='👤 로그인';
   // Hide admin-only tabs
